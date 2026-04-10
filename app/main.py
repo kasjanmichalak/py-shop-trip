@@ -1,3 +1,62 @@
-def shop_trip():
-    # write your code here
-    pass
+from app.shop import Shop
+
+
+from app.customer import Customer
+
+
+import json
+
+
+def shop_trip() -> None:
+    with open("app/config.json", "r") as f:
+        data = json.load(f)
+        customers = data["customers"]
+        shops = data["shops"]
+        fuel_price = data["FUEL_PRICE"]
+
+    customer_objects = []
+    for customer in customers:
+        customer_objects.append(
+            Customer(
+                customer["name"],
+                customer["product_cart"],
+                customer["location"],
+                customer["money"],
+                customer["car"]
+            )
+        )
+
+    shop_objects = []
+    for shop in shops:
+        shop_objects.append(
+            Shop(
+                shop["name"],
+                shop["location"],
+                shop["products"],
+            )
+        )
+
+    for customer in customer_objects:
+        best_shop = None
+        best_cost = 100000000
+        print(f"{customer.name} has {customer.money} dollars")
+        for shop in shop_objects:
+            cost = customer.trip_cost(shop, fuel_price)
+            print(f"{customer.name}'s trip to the {shop.name} costs {cost}")
+            if cost < best_cost:
+                best_cost = cost
+                best_shop = shop
+        if customer.money < best_cost:
+            print(f"{customer.name} doesn't have "
+                  f"enough money to make a purchase in any shop")
+        else:
+            print(f"{customer.name} rides to {best_shop.name}")
+            print()
+            best_shop.print_receipt(customer.product_cart, customer.name)
+            travel = customer.travel_cost(best_shop, fuel_price)
+            shopping = customer.products_cost(best_shop)
+            customer.update_money(shopping, travel)
+            print()
+            print(f"{customer.name} rides home")
+            print(f"{customer.name} now has {customer.money} dollars")
+            print()
