@@ -8,7 +8,7 @@ import json
 
 
 def shop_trip() -> None:
-    with open("app/config.json", "r") as f:
+    with open("config.json", "r") as f:
         data = json.load(f)
         customers = data["customers"]
         shops = data["shops"]
@@ -41,6 +41,9 @@ def shop_trip() -> None:
         best_cost = 100000000
         print(f"{customer.name} has {customer.money} dollars")
         for shop in shop_objects:
+            shopping = customer.products_cost(shop)
+            if shopping is None:
+                continue
             cost = customer.trip_cost(shop, fuel_price)
             print(f"{customer.name}'s trip to the {shop.name} costs {cost}")
             if cost < best_cost:
@@ -50,12 +53,16 @@ def shop_trip() -> None:
             print(f"{customer.name} doesn't have "
                   f"enough money to make a purchase in any shop")
         else:
+            original_location = customer.location
             print(f"{customer.name} rides to {best_shop.name}")
+            customer.location = best_shop.location
             print()
             best_shop.print_receipt(customer.product_cart, customer.name)
             travel = customer.travel_cost(best_shop, fuel_price)
             shopping = customer.products_cost(best_shop)
+            customer.location = original_location
             customer.update_money(shopping, travel)
+
             print()
             print(f"{customer.name} rides home")
             print(f"{customer.name} now has {customer.money} dollars")

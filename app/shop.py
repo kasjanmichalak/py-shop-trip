@@ -8,6 +8,9 @@ class Shop:
         self.products = products
 
     def shopping_cost(self, product_cart: dict) -> float:
+        for product in product_cart:
+            if product not in self.products:
+                return None
         total = 0
         for product, qty in product_cart.items():
             price = self.products[product]
@@ -23,6 +26,8 @@ class Shop:
             if cost.is_integer():
                 cost = int(cost)
             print(f"{quantity} {product}s for "
-                  f"{cost} dollars")
-        print(f"Total cost is {self.shopping_cost(product_cart)} dollars")
+                  f"{cost:.2f} dollars")
+        total = self.shopping_cost(product_cart)
+        total = int(total)
+        print(f"Total cost is {total:.2f} dollars")
         print("See you again!")
