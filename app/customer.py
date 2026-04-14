@@ -24,8 +24,10 @@ class Customer:
     def trip_cost(self, shop: Shop, fuel_price: float) -> float:
         travel = self.travel_cost(shop, fuel_price)
         shopping = self.products_cost(shop)
+        if shopping is None:
+            return None
         return round(travel + shopping, 2)
 
     def update_money(self, shopping_cost: float, travel_cost: float) -> float:
-        self.money = round(self.money - (shopping_cost + travel_cost))
+        self.money = round(self.money - (shopping_cost + travel_cost), 2)
         return self.money
