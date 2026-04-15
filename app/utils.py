@@ -1,4 +1,4 @@
 def format_money(value: float) -> str:
-    if value.is_integer():
+    if value == int(value):
         return str(int(value))
     return str(value)

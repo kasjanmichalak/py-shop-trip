@@ -20,11 +20,6 @@ class Shop:
             total += price * qty
         return total
 
-    def format_money(value: float) -> str:
-        if value.is_integer():
-            return str(int(value))
-        return str(value)
-
     def print_receipt(self, product_cart: dict, customer_name: str) -> None:
         print(f"Date: {datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
         print(f"Thanks, {customer_name}, for your purchase!")
