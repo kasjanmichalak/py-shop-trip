@@ -42,14 +42,14 @@ def shop_trip() -> None:
     for customer in customer_objects:
         best_shop = None
         best_cost = 100000000
-        print(f"{customer.name} has"
+        print(f"{customer.name} has "
               f"{format_money(customer.money)} dollars")
         for shop in shop_objects:
             shopping = customer.products_cost(shop)
             if shopping is None:
                 continue
             cost = customer.trip_cost(shop, fuel_price)
-            print(f"{customer.name}'s trip to the"
+            print(f"{customer.name}'s trip to the "
                   f"{shop.name} costs {cost:.2f}")
             if cost < best_cost:
                 best_cost = cost
@@ -70,6 +70,6 @@ def shop_trip() -> None:
 
             print()
             print(f"{customer.name} rides home")
-            print(f"{customer.name} now has"
+            print(f"{customer.name} now has "
                   f"{format_money(customer.money)} dollars")
             print()
